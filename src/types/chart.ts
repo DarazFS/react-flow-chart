@@ -1,76 +1,25 @@
-import { IPosition, ISize } from './generics'
+graph TD;
+A[Seller/Brand sends legal notice to our legal team];
+B[Legal team vets seller documentation];
+C[Legal team escalates case to catalog team if documentation is proper];
+D[Legal team reverts complaint to seller if documentation is incomplete];
+E[Catalog team fetches seller and product data against infringed brand and updates sheet];
+F[Catalog team updates sheet to notify sellers];
+G[Engagement team notifies sellers daily by following the sheet];
+H[Legal team shares verdict if seller has documentation to share];
+I[Seller's products taken down if documentation is not provided within 14 days];
+J[Catalog team removes assortment after 15 days if no documentation is shared];
+K[Removal is held if documentation is shared until legal team's verdict];
+L[Legal team notifies brand/seller accordingly];
 
-export type IChart<
-  ChartProps = undefined,
-  NodeProps = undefined,
-  LinkProps = undefined,
-  PortProps = undefined
-  > = {
-    offset: IPosition
-    nodes: {
-      [id: string]: INode<NodeProps, PortProps>;
-    }
-    links: {
-      [id: string]: ILink<LinkProps>;
-    }
-    scale: number
-    /** System Temp */
-    selected: ISelectedOrHovered
-    hovered: ISelectedOrHovered,
-  } & (ChartProps extends undefined ? {
-    properties?: any,
-  } : {
-    properties: ChartProps,
-  })
-
-export interface ISelectedOrHovered {
-  type?: 'link' | 'node' | 'port'
-  id?: string
-}
-
-export type INode<NodeProps = undefined, PortProps = undefined> = {
-  id: string
-  type: string
-  position: IPosition
-  orientation?: number
-  readonly?: boolean
-  ports: {
-    [id: string]: IPort<PortProps>;
-  }
-  /** System Temp */
-  size?: ISize,
-} & (NodeProps extends undefined ? {
-  properties?: any,
-} : {
-  properties: NodeProps,
-})
-
-export type IPort<PortProps = undefined> = {
-  id: string
-  type: string
-  value?: string
-  /** System Temp */
-  position?: IPosition,
-} & (PortProps extends undefined ? {
-  properties?: any,
-} : {
-  properties: PortProps,
-})
-
-export type ILink<LinkProps = undefined> = {
-  id: string
-  from: {
-    nodeId: string
-    portId: string,
-  }
-  to: {
-    nodeId?: string;
-    portId?: string;
-    /** System Temp */
-    position?: IPosition;
-  },
-} & (LinkProps extends undefined ? {
-  properties?: any,
-} : {
-  properties: LinkProps,
-})
+A --> B;
+B --> |Documentation proper| C;
+B --> |Documentation incomplete| D;
+C --> E;
+D --> E;
+E --> F;
+F --> G;
+H --> L;
+I --> J;
+J --> |No documentation shared| L;
+K --> L;
